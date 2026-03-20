@@ -1,26 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const geminiService = require('../services/geminiService');
+const { body } = require('express-validator');
+const processController = require('../controllers/processController');
+
+// Define validation rules ensuring strict sanitization preventing NoSQL / Code Inject vectors
+const inputValidationRules = [
+    body('userInput')
+        .exists({ checkFalsy: true }).withMessage('User input is required.')
+        .isString().withMessage('Input must be a string')
+        .trim()
+        .notEmpty().withMessage('Input cannot be entirely blank spaces.')
+        .isLength({ max: 2000 }).withMessage('Input exceeds maximum allowed limit.')
+        .escape() // Strips <script> and dangerous HTML
+];
 
 // POST /api/process
-router.post('/process', async (req, res) => {
-    try {
-        const { userInput } = req.body;
-        
-        if (!userInput || typeof userInput !== 'string' || userInput.trim() === '') {
-            return res.status(400).json({ error: 'User input is required' });
-        }
-
-        console.log(`Processing input: "${userInput}"`);
-        
-        // Call Gemini Service
-        const result = await geminiService.processIntent(userInput);
-        
-        res.json(result);
-    } catch (error) {
-        console.error('Error processing request:', error);
-        res.status(500).json({ error: error.message || 'Internal server error' });
-    }
-});
+// Invokes express-validator array, then passes logic sequentially to the controller
+router.post('/process', inputValidationRules, processController.processIntent);
 
 module.exports = router;

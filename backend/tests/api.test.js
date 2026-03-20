@@ -73,7 +73,8 @@ describe('POST /api/process', () => {
             .send({})
             .expect(400);
 
-        expect(response.body).toHaveProperty('error', 'User input is required');
+        expect(response.body).toHaveProperty('success', false);
+        expect(response.body.errors[0]).toHaveProperty('msg', 'User input is required.');
     });
 
     // Negative Test Case: Empty string
@@ -83,16 +84,18 @@ describe('POST /api/process', () => {
             .send({ userInput: "   " })
             .expect(400);
 
-        expect(response.body).toHaveProperty('error', 'User input is required');
+        expect(response.body).toHaveProperty('success', false);
+        expect(response.body.errors[0]).toHaveProperty('msg', 'Input cannot be entirely blank spaces.');
     });
 
     // Edge Test Case: Excessively long input (assuming your router handles it gracefully, or simulating error)
-    it('should handle typical processing errors gracefully and return 500', async () => {
+    it('should handle typical processing errors gracefully and return 500 or 502', async () => {
         const response = await request(app)
             .post('/api/process')
             .send({ userInput: "error test string" })
-            .expect(500);
+            .expect(502);
 
+        expect(response.body).toHaveProperty('success', false);
         expect(response.body).toHaveProperty('error', 'Simulated Gemini Error');
     });
 
