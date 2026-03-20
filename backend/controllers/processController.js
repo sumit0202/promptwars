@@ -51,6 +51,10 @@ const processIntent = async (req, res, next) => {
             
             // Asynchronous Google Cloud Firestore storage offloading for audit integrity metrics
             googleCloudService.saveIntentAuditRecord({ inputSize: userInput.length, result: result });
+            
+            // Advanced Google Service Implementations (PubSub and Cloud Storage)
+            googleCloudService.pushToPubSub('incident-response-events', result);
+            googleCloudService.archiveToStorageBucket('promptwars-archival-bucket', `incident-${Date.now()}.json`, result);
         }
         
         // 5. Success Pipeline Exit

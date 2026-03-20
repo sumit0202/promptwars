@@ -18,6 +18,8 @@
     "@google-cloud/bigquery": "^8.1.1",
     "@google-cloud/firestore": "^8.3.0",
     "@google-cloud/logging": "^11.2.1",
+    "@google-cloud/pubsub": "^5.3.0",
+    "@google-cloud/storage": "^7.19.0",
     "@google-cloud/translate": "^9.3.0",
     "@google/generative-ai": "^0.24.1",
     "compression": "^1.8.1",

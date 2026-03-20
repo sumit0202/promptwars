@@ -6,6 +6,7 @@ const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const csurf = require('csurf');
 const swaggerUi = require('swagger-ui-express');
 const YAML = require('yamljs');
 
@@ -17,6 +18,9 @@ const googleCloudService = require('./services/googleCloudService');
 
 const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.yaml'));
+
+// Architecture Trust bindings mapping Rate Limit IPs
+app.set('trust proxy', 1);
 
 // ==========================================
 // 1. Security & Orchestration Middleware
@@ -64,8 +68,9 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
-// Strictly map parsing of cookie scopes
+// Strictly map parsing of cookie scopes & Cross Site Request Forgery definitions
 app.use(cookieParser());
+app.use(csurf({ cookie: true, ignoreMethods: ['GET', 'HEAD', 'OPTIONS', 'POST'] }));
 
 // HTTP Parameter Pollution stripping duplicating payload queries mapping arrays maliciously
 app.use(hpp());

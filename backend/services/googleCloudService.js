@@ -2,6 +2,8 @@ const { Firestore } = require('@google-cloud/firestore');
 const { Logging } = require('@google-cloud/logging');
 const { BigQuery } = require('@google-cloud/bigquery');
 const { Translate } = require('@google-cloud/translate').v2;
+const { Storage } = require('@google-cloud/storage');
+const { PubSub } = require('@google-cloud/pubsub');
 const config = require('../config/settings');
 
 // Initialize Google Cloud Services safely (Avoids local test crashes due to missing GCP credentials)
@@ -9,6 +11,8 @@ let firestoreDb = null;
 let gcpLogger = null;
 let bigquery = null;
 let translate = null;
+let storage = null;
+let pubsub = null;
 
 const initializeGCP = () => {
     // Only instantiate real GCP clients conditionally if explicit project id is provided to avoid GRPC authentication crashes natively
@@ -20,6 +24,8 @@ const initializeGCP = () => {
             
             bigquery = new BigQuery({ projectId: config.google.gcpProjectId });
             translate = new Translate({ projectId: config.google.gcpProjectId });
+            storage = new Storage({ projectId: config.google.gcpProjectId });
+            pubsub = new PubSub({ projectId: config.google.gcpProjectId });
         } catch (error) {
             console.warn("[GCP Warn] Google Cloud SDK initialized without credentials globally. Using local proxy.");
         }
@@ -93,9 +99,43 @@ const translateText = async (text, target) => {
     }
 };
 
+/**
+ * Persists raw payload context traces safely down a secure GCP Data Lake.
+ */
+const archiveToStorageBucket = async (bucketName, fileName, data) => {
+    try {
+        if (!storage) return false;
+        const bucket = storage.bucket(bucketName);
+        const file = bucket.file(fileName);
+        await file.save(JSON.stringify(data), { contentType: 'application/json' });
+        return true;
+    } catch (error) {
+        console.error(`[GCS Error] ${error.message}`);
+        return false;
+    }
+};
+
+/**
+ * Ingests events asynchronously mapping critical incidents into Enterprise Event Buses.
+ */
+const pushToPubSub = async (topicName, payloadObj) => {
+    try {
+        if (!pubsub) return false;
+        const topic = pubsub.topic(topicName);
+        const dataBuffer = Buffer.from(JSON.stringify(payloadObj));
+        await topic.publishMessage({ data: dataBuffer });
+        return true;
+    } catch (error) {
+        console.error(`[PubSub Error] ${error.message}`);
+        return false;
+    }
+};
+
 module.exports = {
     saveIntentAuditRecord,
     writeStructuredLog,
     streamToBigQuery,
-    translateText
+    translateText,
+    archiveToStorageBucket,
+    pushToPubSub
 };
