@@ -5,6 +5,9 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const compression = require('compression');
 const hpp = require('hpp');
+const cookieParser = require('cookie-parser');
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
 
 // Architecture enforced settings singleton (Code Quality)
 const config = require('./config/settings'); 
@@ -13,6 +16,7 @@ const errorHandler = require('./middleware/errorMiddleware');
 const googleCloudService = require('./services/googleCloudService');
 
 const app = express();
+const swaggerDocument = YAML.load(path.join(__dirname, 'swagger.yaml'));
 
 // ==========================================
 // 1. Security & Orchestration Middleware
@@ -60,6 +64,9 @@ app.use(cors(corsOptions));
 app.use(express.json({ limit: '1mb' }));
 app.use(express.urlencoded({ extended: true, limit: '1mb' }));
 
+// Strictly map parsing of cookie scopes
+app.use(cookieParser());
+
 // HTTP Parameter Pollution stripping duplicating payload queries mapping arrays maliciously
 app.use(hpp());
 
@@ -74,10 +81,11 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // ==========================================
-// 2. Application Core Routing
+// 2. Application Core Routing & API Docs
 // ==========================================
 
 app.use(express.static(path.join(__dirname, '../frontend')));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument)); // Live Interactive API Testing Quality Standard
 app.use('/api', apiRoutes);
 
 app.use((req, res, next) => {

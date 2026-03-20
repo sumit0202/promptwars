@@ -1,10 +1,14 @@
 const { Firestore } = require('@google-cloud/firestore');
 const { Logging } = require('@google-cloud/logging');
+const { BigQuery } = require('@google-cloud/bigquery');
+const { Translate } = require('@google-cloud/translate').v2;
 const config = require('../config/settings');
 
 // Initialize Google Cloud Services safely (Avoids local test crashes due to missing GCP credentials)
 let firestoreDb = null;
 let gcpLogger = null;
+let bigquery = null;
+let translate = null;
 
 const initializeGCP = () => {
     // Only instantiate real GCP clients conditionally if explicit project id is provided to avoid GRPC authentication crashes natively
@@ -13,6 +17,9 @@ const initializeGCP = () => {
             firestoreDb = new Firestore({ projectId: config.google.gcpProjectId });
             const loggingClient = new Logging({ projectId: config.google.gcpProjectId });
             gcpLogger = loggingClient.log('intent-action-log');
+            
+            bigquery = new BigQuery({ projectId: config.google.gcpProjectId });
+            translate = new Translate({ projectId: config.google.gcpProjectId });
         } catch (error) {
             console.warn("[GCP Warn] Google Cloud SDK initialized without credentials globally. Using local proxy.");
         }
@@ -58,7 +65,37 @@ const writeStructuredLog = async (message, severity = 'INFO') => {
     }
 };
 
+/**
+ * Executes a streaming insert payload against Google BigQuery natively for heavy BI pipeline analytics.
+ */
+const streamToBigQuery = async (datasetId, tableId, rows) => {
+    try {
+        if (!bigquery) return false;
+        await bigquery.dataset(datasetId).table(tableId).insert(rows);
+        return true;
+    } catch (error) {
+        console.error(`[BigQuery Error] ${error.message}`);
+        return false;
+    }
+};
+
+/**
+ * Dynamically taps into Google Cloud API AI/ML Translation matrix. Multi-lingual context pipeline.
+ */
+const translateText = async (text, target) => {
+    try {
+        if (!translate) return `[Simulated Translation: ${text} to ${target}]`;
+        const [translation] = await translate.translate(text, target);
+        return translation;
+    } catch (error) {
+        console.error(`[Translate Error] ${error.message}`);
+        return text;
+    }
+};
+
 module.exports = {
     saveIntentAuditRecord,
-    writeStructuredLog
+    writeStructuredLog,
+    streamToBigQuery,
+    translateText
 };

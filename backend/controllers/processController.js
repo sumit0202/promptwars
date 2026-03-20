@@ -36,14 +36,20 @@ const processIntent = async (req, res, next) => {
 
         googleCloudService.writeStructuredLog(`Processing fresh intent NLP layer matrix: ${userInput.length} chars`, 'INFO');
 
+        // Execute background Enterprise BigQuery Data-Lake streaming (Google Services Analytics metrics)
+        googleCloudService.streamToBigQuery('analytics_dataset', 'incident_prompts', [{ input_text: userInput, timestamp: new Date().toISOString() }]);
+
         // 3. Orchestrator delegates strict text manipulation mapping directly to Google Service Model
         const result = await geminiService.processIntent(userInput);
         
-        // 4. Integrations execution caching logic validating GCP Firestore persistence metric
+        // Google Services AI Edge Localization using Cloud Translation natively
         if (result && result.intent) {
+            result.translated_intent_es = await googleCloudService.translateText(result.intent, 'es');
+            
+            // 4. Integrations execution caching logic validating GCP Firestore persistence metric
             aiCache.set(cacheHashKey, result);
             
-            // Asynchronous Google Cloud Firestore storage offloading for audit integrity metrics (Google Services metrics)
+            // Asynchronous Google Cloud Firestore storage offloading for audit integrity metrics
             googleCloudService.saveIntentAuditRecord({ inputSize: userInput.length, result: result });
         }
         

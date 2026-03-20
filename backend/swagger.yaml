@@ -1,0 +1,83 @@
+openapi: 3.0.0
+info:
+  title: Universal Intent-to-Action Bridge API
+  version: 1.0.0
+  description: Secured RESTful API governing explicit spatial awareness dispatch metrics leveraging Google Gemini and GIS routing.
+  contact:
+    name: Code Architecture Audit
+    url: https://docs.google.com/
+servers:
+  - url: http://localhost:3000
+    description: Development Server
+  - url: https://api.production.bridge
+    description: Production Environment Cluster
+tags:
+  - name: Triage
+    description: Core analytical inference pipelines
+paths:
+  /api/process:
+    post:
+      summary: Process unformatted intent payload 
+      description: Rejects invalid or malicious strings. Passes strictly verified requests down the generative pipeline and caches the outputs.
+      tags:
+        - Triage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - userInput
+              properties:
+                userInput:
+                  type: string
+                  example: "Someone is breaking into my vehicle parked out back!"
+                  maxLength: 2000
+      responses:
+        '200':
+          description: Standard explicit intent routing layout
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  intent:
+                    type: string
+                  risk_level:
+                    type: string
+                  actions:
+                    type: array
+                    items:
+                      type: string
+                  authorities:
+                    type: array
+                    items:
+                      type: string
+                  translated_intent_es:
+                    type: string
+                    description: Spanish locale localized via Google Translation API
+        '400':
+          description: Semantic validation barrier rejection (XSS/HPP blocked)
+        '429':
+          description: Too many requests exceeding standard Rate Limit bounds
+        '500':
+          description: Processing framework failure
+        '502':
+          description: Upstream Google Services Timeout or Denied Action
+  /api/config:
+    get:
+      summary: Retrieve client environment variables securely
+      description: Extracts context-aware non-sensitive front-end API keys without hardcoding them in the static DOM.
+      tags:
+        - System
+      responses:
+        '200':
+          description: Returns mapping key string
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  mapsKey:
+                    type: string
