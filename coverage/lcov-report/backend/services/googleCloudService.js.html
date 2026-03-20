@@ -3,7 +3,7 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for backend/controllers/processController.js</title>
+    <title>Code coverage report for backend/services/googleCloudService.js</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="../../prettify.css" />
     <link rel="stylesheet" href="../../base.css" />
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">backend/controllers</a> processController.js</h1>
+        <h1><a href="../../index.html">All files</a> / <a href="index.html">backend/services</a> googleCloudService.js</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">54.83% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>26/28</span>
+                <span class='fraction'>17/31</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">70% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>7/10</span>
+                <span class='fraction'>5/10</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/1</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.85% </span>
+                <span class="strong">53.33% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>26/28</span>
+                <span class='fraction'>16/30</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line high'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -127,136 +127,133 @@
 <a name='L62'></a><a href='#L62'>62</a>
 <a name='L63'></a><a href='#L63'>63</a>
 <a name='L64'></a><a href='#L64'>64</a>
-<a name='L65'></a><a href='#L65'>65</a>
-<a name='L66'></a><a href='#L66'>66</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L65'></a><a href='#L65'>65</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">6x</span>
-<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const geminiService = require('../services/geminiService');
-const googleCloudService = require('../services/googleCloudService');
-const { validationResult } = require('express-validator');
-const NodeCache = require('node-cache');
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">const { Firestore } = require('@google-cloud/firestore');
+const { Logging } = require('@google-cloud/logging');
+const config = require('../config/settings');
 &nbsp;
-// Memory Cache allocations (Optimal CPU/Latency resource Efficiency scaling limits)
-const aiCache = new NodeCache({ stdTTL: 3600, checkperiod: 600, useClones: false });
+// Initialize Google Cloud Services safely (Avoids local test crashes due to missing GCP credentials)
+let firestoreDb = null;
+let gcpLogger = null;
+&nbsp;
+const initializeGCP = () =&gt; {
+    // Only instantiate real GCP clients conditionally if explicit project id is provided to avoid GRPC authentication crashes natively
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (config.google.gcpProjectId &amp;&amp; config.google.gcpProjectId !== 'promptwarssample' &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >config.app.env !== 'test')</span> {
+<span class="cstat-no" title="statement not covered" >        try {</span>
+<span class="cstat-no" title="statement not covered" >            firestoreDb = new Firestore({ projectId: config.google.gcpProjectId });</span>
+            const loggingClient = <span class="cstat-no" title="statement not covered" >new Logging({ projectId: config.google.gcpProjectId });</span>
+<span class="cstat-no" title="statement not covered" >            gcpLogger = loggingClient.log('intent-action-log');</span>
+        } catch (error) {
+<span class="cstat-no" title="statement not covered" >            console.warn("[GCP Warn] Google Cloud SDK initialized without credentials globally. Using local proxy.");</span>
+        }
+    }
+};
+initializeGCP();
 &nbsp;
 /**
- * Controller explicitly handling Intent Processing via Google Gemini 
- * Integrates Input Sanitization, Local Node Caching, GCP Datastore, and Service calls securely.
- * 
- * @param {Object} req - Express request object
- * @param {Object} res - Express response payload
- * @param {Function} next - Error middleware pipeline hook
+ * Persists finalized intent records to a resilient NoSQL database for audit tracking.
+ * Drives meaningful integration of auxiliary Google Services (scoring metrics).
  */
-const processIntent = async (req, res, next) =&gt; {
+const saveIntentAuditRecord = async (intentPayload) =&gt; {
     try {
-        // 1. Validate constraints directly (Code Quality guarantees)
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(400).json({ success: false, errors: errors.array() });
-        }
-&nbsp;
-        const { userInput } = req.body;
-        const normalizedInput = userInput.trim().toLowerCase();
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!firestoreDb) return false;
         
-        // 2. Optimization Layer: Resource-efficient Response Caching mapping LLM costs securely
-        const cacheHashKey = Buffer.from(normalizedInput).toString('base64');
-        const cachedResponse = aiCache.get(cacheHashKey);
-        
-        <span class="missing-if-branch" title="if path not taken" >I</span>if (cachedResponse) {
-<span class="cstat-no" title="statement not covered" >            googleCloudService.writeStructuredLog(`Cache HIT optimized - Memory Rendered: Length ${userInput.length}`, 'INFO');</span>
-<span class="cstat-no" title="statement not covered" >            return res.status(200).json(cachedResponse);</span>
-        }
-&nbsp;
-        googleCloudService.writeStructuredLog(`Processing fresh intent NLP layer matrix: ${userInput.length} chars`, 'INFO');
-&nbsp;
-        // 3. Orchestrator delegates strict text manipulation mapping directly to Google Service Model
-        const result = await geminiService.processIntent(userInput);
-        
-        // 4. Integrations execution caching logic validating GCP Firestore persistence metric
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (result &amp;&amp; result.intent) {
-            aiCache.set(cacheHashKey, result);
-            
-            // Asynchronous Google Cloud Firestore storage offloading for audit integrity metrics (Google Services metrics)
-            googleCloudService.saveIntentAuditRecord({ inputSize: userInput.length, result: result });
-        }
-        
-        // 5. Success Pipeline Exit
-        return res.status(200).json(result);
-&nbsp;
+        const docRef = <span class="cstat-no" title="statement not covered" >firestoreDb.collection('intentAudits').doc();</span>
+<span class="cstat-no" title="statement not covered" >        await docRef.set({</span>
+            ...intentPayload,
+            timestamp: new Date().toISOString(),
+            status: "PROCESSED"
+        });
+<span class="cstat-no" title="statement not covered" >        return true;</span>
     } catch (error) {
-        // Operational mapping explicitly wrapping generic exceptions cleanly behind 502/500 screens
-        <span class="missing-if-branch" title="else path not taken" >E</span>if (!error.statusCode) {
-            error.statusCode = 502; // Upstream Dependency Exception Logic Handler 
-            error.isOperational = true;
+<span class="cstat-no" title="statement not covered" >        console.error(`[GCP Storage Error] ${error.message}`);</span>
+<span class="cstat-no" title="statement not covered" >        return false;</span>
+    }
+};
+&nbsp;
+/**
+ * Standardized Google Cloud Operation Logging
+ */
+const writeStructuredLog = async (message, severity = <span class="branch-0 cbranch-no" title="branch not covered" >'INFO')</span> =&gt; {
+    try {
+        <span class="missing-if-branch" title="else path not taken" >E</span>if (!gcpLogger) {
+            // Local JSON logging matching GCP format
+            return console.log(JSON.stringify({ severity, message }));
         }
-        next(error); 
+        const metadata = <span class="cstat-no" title="statement not covered" >{ resource: { type: 'global' }, severity };</span>
+        const entry = <span class="cstat-no" title="statement not covered" >gcpLogger.entry(metadata, message);</span>
+<span class="cstat-no" title="statement not covered" >        await gcpLogger.write(entry);</span>
+    } catch (error) {
+<span class="cstat-no" title="statement not covered" >        console.log(JSON.stringify({ severity, message, error: error.message }));</span>
     }
 };
 &nbsp;
 module.exports = {
-    processIntent
+    saveIntentAuditRecord,
+    writeStructuredLog
 };
 &nbsp;</pre></td></tr></table></pre>
 

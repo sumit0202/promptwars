@@ -7,21 +7,27 @@
     "start": "node backend/server.js",
     "dev": "node --watch backend/server.js",
     "test": "jest --coverage",
-    "load": "node load-test.js"
+    "load": "node load-test.js",
+    "lint": "eslint backend/**/*.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "@google-cloud/firestore": "^8.3.0",
+    "@google-cloud/logging": "^11.2.1",
     "@google/generative-ai": "^0.24.1",
     "compression": "^1.8.1",
     "cors": "^2.8.6",
+    "csurf": "^1.11.0",
     "dotenv": "^17.3.1",
+    "dotenv-validator": "^1.0.1",
     "express": "^5.2.1",
     "express-rate-limit": "^8.3.1",
     "express-validator": "^7.3.1",
     "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
     "morgan": "^1.10.1",
     "node-cache": "^5.1.2",
     "xss-clean": "^0.1.4"
@@ -29,8 +35,11 @@
   "devDependencies": {
     "autocannon": "^8.0.0",
     "eslint": "^10.0.3",
+    "husky": "^9.1.7",
     "jest": "^30.3.0",
     "jest-html-reporter": "^4.3.0",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.1",
     "supertest": "^7.2.2"
   }
 }

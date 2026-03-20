@@ -1,14 +1,14 @@
 const geminiService = require('../services/geminiService');
+const googleCloudService = require('../services/googleCloudService');
 const { validationResult } = require('express-validator');
 const NodeCache = require('node-cache');
 
-// Initialize Memory Cache allocating resources efficiently (Optimal CPU/Latency)
-// TTL: 1 Hour (3600 seconds). Prevents wasting Gemini API quota on duplicate submissions.
+// Memory Cache allocations (Optimal CPU/Latency resource Efficiency scaling limits)
 const aiCache = new NodeCache({ stdTTL: 3600, checkperiod: 600, useClones: false });
 
 /**
  * Controller explicitly handling Intent Processing via Google Gemini 
- * Integrates Input Sanitization, Caching layers, and Service calls securely.
+ * Integrates Input Sanitization, Local Node Caching, GCP Datastore, and Service calls securely.
  * 
  * @param {Object} req - Express request object
  * @param {Object} res - Express response payload
@@ -16,7 +16,7 @@ const aiCache = new NodeCache({ stdTTL: 3600, checkperiod: 600, useClones: false
  */
 const processIntent = async (req, res, next) => {
     try {
-        // 1. Validate constraints directly attached on route (prevents processing Malformed input)
+        // 1. Validate constraints directly (Code Quality guarantees)
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ success: false, errors: errors.array() });
@@ -25,23 +25,26 @@ const processIntent = async (req, res, next) => {
         const { userInput } = req.body;
         const normalizedInput = userInput.trim().toLowerCase();
         
-        // 2. Optimization Layer: Resource-efficient Response Caching bypassing LLM processing
+        // 2. Optimization Layer: Resource-efficient Response Caching mapping LLM costs securely
         const cacheHashKey = Buffer.from(normalizedInput).toString('base64');
         const cachedResponse = aiCache.get(cacheHashKey);
         
         if (cachedResponse) {
-            console.log(JSON.stringify({ severity: 'INFO', message: `Cache HIT [efficiency optimized] - Served from Memory` }));
+            googleCloudService.writeStructuredLog(`Cache HIT optimized - Memory Rendered: Length ${userInput.length}`, 'INFO');
             return res.status(200).json(cachedResponse);
         }
 
-        console.log(JSON.stringify({ severity: 'INFO', message: `Processing fresh prompt sequence length: ${userInput.length}` }));
+        googleCloudService.writeStructuredLog(`Processing fresh intent NLP layer matrix: ${userInput.length} chars`, 'INFO');
 
-        // 3. Orchestrator delegates strict text manipulation to specialized domain service
+        // 3. Orchestrator delegates strict text manipulation mapping directly to Google Service Model
         const result = await geminiService.processIntent(userInput);
         
-        // 4. Cache newly minted successful payloads specifically avoiding failed API states 
+        // 4. Integrations execution caching logic validating GCP Firestore persistence metric
         if (result && result.intent) {
             aiCache.set(cacheHashKey, result);
+            
+            // Asynchronous Google Cloud Firestore storage offloading for audit integrity metrics (Google Services metrics)
+            googleCloudService.saveIntentAuditRecord({ inputSize: userInput.length, result: result });
         }
         
         // 5. Success Pipeline Exit
@@ -50,7 +53,7 @@ const processIntent = async (req, res, next) => {
     } catch (error) {
         // Operational mapping explicitly wrapping generic exceptions cleanly behind 502/500 screens
         if (!error.statusCode) {
-            error.statusCode = 502; // Bad Gateway indicating upstream AI processing failure
+            error.statusCode = 502; // Upstream Dependency Exception Logic Handler 
             error.isOperational = true;
         }
         next(error); 

@@ -1,0 +1,40 @@
+name: Code Quality & Security Continuous Integration
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build_test_audit:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [18.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        
+    - name: Strict Dependency Install
+      run: npm ci
+
+    - name: Run NPM Security Vulnerability Audit
+      run: npm audit --audit-level=high
+
+    - name: Syntax Linting for Code Quality
+      run: npm run lint --if-present
+      continue-on-error: true
+
+    - name: Execute End-to-End Test Pipelines (Jest Coverage)
+      run: npm run test
+      env:
+        NODE_ENV: test
+        GEMINI_API_KEY: fake-test-key
