@@ -14,8 +14,9 @@ async function processIntent(userInput) {
             throw new Error('GEMINI_API_KEY is missing in the environment variables');
         }
 
+        const modelName = process.env.GEMINI_MODEL || 'gemini-2.5-flash';
         const model = genAI.getGenerativeModel({
-            model: 'gemini-2.5-flash',
+            model: modelName,
             generationConfig: {
                 responseMimeType: "application/json",
             }
