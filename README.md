@@ -2,8 +2,6 @@
 
 An AI-powered web application that acts as an emergency response triage system. It converts unstructured real-world inputs (like voice transcripts, event descriptions) into structured actionable JSON, identifying intents, extracting entities, estimating risk, and suggesting concrete actions.
 
-## 🏆 Hackathon Challenge Information
-
 ### Chosen Vertical
 **Crisis Management & Emergency Response.** This project acts as a middle-layer between panicked or unstructured distress signals (voice, text) and structured systems (911 dispatchers, emergency responders, or volunteer networks).
 
@@ -63,5 +61,3 @@ An AI-powered web application that acts as an emergency response triage system. 
    \`\`\`bash
    npm start
    \`\`\`
-
-Prepared fully for the Code Challenge! 🎉
