@@ -7,7 +7,7 @@ router.post('/process', async (req, res) => {
     try {
         const { userInput } = req.body;
         
-        if (!userInput) {
+        if (!userInput || typeof userInput !== 'string' || userInput.trim() === '') {
             return res.status(400).json({ error: 'User input is required' });
         }
 

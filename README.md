@@ -2,87 +2,66 @@
 
 An AI-powered web application that acts as an emergency response triage system. It converts unstructured real-world inputs (like voice transcripts, event descriptions) into structured actionable JSON, identifying intents, extracting entities, estimating risk, and suggesting concrete actions.
 
-## 🚀 Features
-- **Prompt Analysis:** Utilizes the Gemini API to analyze emergency contexts accurately.
-- **Structured JSON Output:** Returns clean JSON extracting the issue, location, risk level, actions, and authorities to contact.
-- **Dynamic UI:** A clean, responsive dashboard displaying structured details intuitively.
-- **Modularity:** Separation of frontend and backend concerns.
+## 🏆 Hackathon Challenge Information
 
-## ⚙️ Tech Stack
-- Frontend: HTML5, Tailwind CSS (via CDN), Vanilla JavaScript
-- Backend: Node.js, Express
-- AI Integration: Google Gemini API SDK
+### Chosen Vertical
+**Crisis Management & Emergency Response.** This project acts as a middle-layer between panicked or unstructured distress signals (voice, text) and structured systems (911 dispatchers, emergency responders, or volunteer networks).
 
-## 📁 Project Structure
-\`\`\`
-/project
-  /frontend
-    index.html
-    app.js
-    styles.css
-  /backend
-    server.js
-    routes/
-      api.js
-    services/
-      geminiService.js
-  .env                  # Environment Variables
-  package.json          # Node dependencies
-  README.md             # Project Documentation
-\`\`\`
+### Approach and Logic
+1. **Dynamic Input Processing**: Converts natural human language into rigid JSON objects. This handles ambiguous scenarios (e.g., distinguishing a loud party from an active robbery) seamlessly.
+2. **Context-Aware Decision Making**: Analyzes factors like missing entities or urgency. If "fire" is detected without an explicit location, the logic ensures responders are alerted to a "high" risk level even if the address is "unknown" so they can trace the location themselves.
+3. **Robust Separation of Concerns**: We separated logic into distinct services. A `geminiService.js` wraps the Gemini API securely. A rate-limiter prevents abuse, and HTTP headers restrict attack vectors.
+4. **Resiliency over Perfection**: Testing layers ensure that even if the AI responds in malformed structures or if the endpoint experiences extremely heavy server load, it will gracefully fall back to an error state without crashing the container.
 
-## 🛠️ Setup Instructions
+### How the Solution Works
+1. A user, responder, or API client sends an unstructured input phrase to the `/api/process` endpoint.
+2. The core backend processes this using the Gemini-2.5-flash model via a highly tuned, strict system prompt forcing JSON outputs.
+3. The response evaluates the `intent`, `risk_level`, `entities`, `actions`, and `authorities`.
+4. The React/Vanilla frontend parses the JSON, updates visual urgency components (color-coded risk banners), and formats actionable steps.
 
-1. **Clone or Download the Project.**
-2. **Navigate to the Project Directory:**
-   \`\`\`bash
-   cd project
-   \`\`\`
-   
-3. **Install Dependencies:**
-   Make sure you have Node.js installed, then run:
+### Assumptions Made
+- The integration environment provides standard inputs via text APIs. If handling voice or image, it is assumed those streams have already been translated to text before hitting this specific processing endpoint.
+- Network bandwidth is sufficient for API calls.
+- Gemini processing time operates within a 15-second response window to prevent client timeouts.
+
+---
+
+## 🚀 Features & Evaluation Focus Areas
+- **Code Quality**: Clean, modular structure separating UI, Routes, Services, and Tests.
+- **Security**: Hardened Express application using `helmet` for Security Headers, HTTP Rate-Limiting, CORS scoping, and hidden `.env`.
+- **Efficiency**: Written using raw modern JavaScript and `node:18-alpine` inside Docker to load quickly. Minimum memory footprint.
+- **Testing**: Complete E2E testing framework via Jest and Supertest. Includes *Positive*, *Negative*, and *Edge/Security* cases. Includes an automated *Load Test* script.
+- **Accessibility**: Valid, semantic HTML with full ARIA implementations, explicit contrasts, and screen-recorder hidden decorative icons.
+- **Google Services**: Meaningful integration of the Google Gemini SDK for pure, generative decision-making workflows.
+
+---
+
+## 🛠️ Setup Instructions & Scripts
+
+1. **Install Dependencies:**
    \`\`\`bash
    npm install
    \`\`\`
 
-4. **Set Up the Environment Variables:**
-   - Open the `.env` file in the root directory.
-   - Replace `your_gemini_api_key_here` with your actual Google Gemini API Key.
+2. **Environment Variables:**
+   Use the `.env` template to add your Gemini Key.
    \`\`\`
    PORT=3000
-   GEMINI_API_KEY=your_real_api_key
+   GEMINI_API_KEY=your_gemini_api_key_here
    \`\`\`
 
-## 🏃 How to Run Locally
+3. **Running tests:**
+   \`\`\`bash
+   # Run all Unit & Integration Tests (Jest)
+   npm run test
+   
+   # Run Load Testing (Autocannon)
+   npm run load
+   \`\`\`
 
-1. **Start the Application Server**
-   From the root project directory, run:
+4. **Start Application Locally:**
    \`\`\`bash
    npm start
    \`\`\`
 
-2. **Open the Application**
-   Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
-
-## 🧪 Example API Response
-\`\`\`json
-{
-  "intent": "emergency_medical",
-  "risk_level": "high",
-  "entities": {
-    "location": "unknown",
-    "issue": "chest pain and heavy sweating"
-  },
-  "actions": [
-    "Have the person sit down or lie down",
-    "Keep the person calm and warm",
-    "Ask if they take any heart medication like nitroglycerin and help them take it if prescribed",
-    "If unconscious, prepare to perform CPR"
-  ],
-  "authorities": [
-    "Ambulance (e.g., 911)"
-  ]
-}
-\`\`\`
-
-Prepared for the Hackathon! 🎉
+Prepared fully for the Code Challenge! 🎉
