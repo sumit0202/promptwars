@@ -14,7 +14,6 @@ RUN npm ci --only=production
 COPY backend ./backend
 COPY frontend ./frontend
 COPY load-test.js .
-COPY .env .
 
 # ==========================================
 # Phase 2: Secure Production Container
