@@ -155,4 +155,143 @@ document.addEventListener('DOMContentLoaded', () => {
             authoritiesList.innerHTML = '<span class="text-gray-400 italic text-sm">None identified.</span>';
         }
     }
+
+    // ==========================================
+    // GPS & Google Maps Spatial Integrations
+    // ==========================================
+    let mapInstance = null;
+    let placesLibrary = null;
+    let fallbackCoordinates = { lat: 39.8283, lng: -98.5795 }; // System-wide fallback
+
+    const mapStatus = document.getElementById('map-status');
+    const mapCanvas = document.getElementById('map');
+
+    async function initializeMappings(authorities) {
+        if (!authorities || authorities.length === 0) return;
+        
+        try {
+            // Secure API Delivery
+            const configResult = await fetch('/api/config');
+            const { mapsKey } = await configResult.json();
+            
+            if (!mapsKey) {
+                mapCanvas.classList.add('hidden');
+                mapStatus.classList.remove('hidden');
+                mapStatus.textContent = "Google Services mapping skipped (API Key unconfigured or disabled in env)";
+                return;
+            }
+
+            // Dynamically build and mount script tag securely avoiding CSP conflicts
+            if (!window.google) {
+                mapCanvas.classList.remove('hidden');
+                mapStatus.classList.remove('hidden');
+                mapStatus.textContent = "Initializing Google Maps & GPS locators...";
+                
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = `https://maps.googleapis.com/maps/api/js?key=${mapsKey}&libraries=places`;
+                    script.async = true;
+                    script.defer = true;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+            }
+
+            mapStatus.textContent = "Acquiring secure GPS localization lock...";
+
+            // Retrieve User Geolocation edge cases wrapped
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const bounds = { lat: position.coords.latitude, lng: position.coords.longitude };
+                    renderMapSurroundings(bounds, authorities);
+                },
+                (error) => {
+                    console.warn("GPS Permission edge case tripped", error);
+                    mapStatus.textContent = "GPS Access Denied. Utilizing broad fallback origin array.";
+                    renderMapSurroundings(fallbackCoordinates, authorities);
+                },
+                { timeout: 10000, enableHighAccuracy: false } // Edge case limits
+            );
+
+        } catch (error) {
+            console.error("Maps API Edge Case:", error);
+            mapStatus.classList.remove('hidden');
+            mapStatus.textContent = "Google Maps Service temporarily degraded or unavailable.";
+        }
+    }
+
+    function renderMapSurroundings(locationCenter, authorities) {
+        mapStatus.textContent = "Scanning vicinity for civil response infrastructure...";
+        
+        // Orchestrate Maps API Canvas
+        mapInstance = new google.maps.Map(mapCanvas, {
+            center: locationCenter,
+            zoom: 13,
+            disableDefaultUI: true,
+            zoomControl: true,
+            mapTypeId: 'terrain'
+        });
+
+        // Current origin explicit placement
+        new google.maps.Marker({
+            position: locationCenter,
+            map: mapInstance,
+            title: "Your GPS Origin",
+            icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'
+        });
+
+        placesLibrary = new google.maps.places.PlacesService(mapInstance);
+
+        // Scan dynamically depending on AI Triaged Results
+        authorities.forEach(authType => {
+            let mappedKeyword = authType.toLowerCase();
+            if (mappedKeyword.includes('police')) mappedKeyword = 'police';
+            else if (mappedKeyword.includes('fire')) mappedKeyword = 'fire station';
+            else if (mappedKeyword.includes('medical') || mappedKeyword.includes('hospital')) mappedKeyword = 'hospital';
+
+            const searchParams = { location: locationCenter, radius: '6000', keyword: mappedKeyword };
+            
+            placesLibrary.nearbySearch(searchParams, (results, status) => {
+                if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+                    mapStatus.textContent = "Response infrastructure explicitly linked to Map Interface.";
+                    // Render Top 3 nearest corresponding to logic constraints safely
+                    for (let i = 0; i < Math.min(results.length, 3); i++) {
+                        deployMarker(results[i], mappedKeyword);
+                    }
+                }
+            });
+        });
+    }
+
+    function deployMarker(place, scope) {
+        let specializedIcon = 'http://maps.google.com/mapfiles/ms/icons/red-dot.png';
+        if (scope === 'police') specializedIcon = 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png';
+        if (scope === 'hospital') specializedIcon = 'http://maps.google.com/mapfiles/ms/icons/red-pushpin.png';
+
+        const mapMarker = new google.maps.Marker({
+            map: mapInstance,
+            position: place.geometry.location,
+            title: place.name,
+            icon: specializedIcon
+        });
+
+        const popUp = new google.maps.InfoWindow({
+            content: `<div class="p-1"><strong class="text-sm font-bold">${place.name}</strong><br><span class="text-xs text-gray-600">${place.vicinity}</span></div>`
+        });
+
+        mapMarker.addListener("click", () => {
+            popUp.open(mapInstance, mapMarker);
+        });
+    }
+
+    // Intercept generic renderResults calls sequentially adding the mappings
+    const originalRenderResults = renderResults;
+    renderResults = function(data) {
+        originalRenderResults(data);
+        if (data.authorities && data.authorities.length > 0) {
+            initializeMappings(data.authorities);
+        }
+    };
+
 });

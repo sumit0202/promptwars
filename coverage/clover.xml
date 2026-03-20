@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1773999091965" clover="3.2.0">
-  <project timestamp="1773999091965" name="All files">
-    <metrics statements="123" coveredstatements="94" conditionals="50" coveredconditionals="32" methods="9" coveredmethods="5" elements="182" coveredelements="131" complexity="0" loc="123" ncloc="123" packages="6" files="6" classes="6"/>
+<coverage generated="1773999268490" clover="3.2.0">
+  <project timestamp="1773999268490" name="All files">
+    <metrics statements="128" coveredstatements="102" conditionals="52" coveredconditionals="34" methods="10" coveredmethods="7" elements="190" coveredelements="143" complexity="0" loc="128" ncloc="128" packages="6" files="6" classes="6"/>
     <package name="backend">
-      <metrics statements="42" coveredstatements="30" conditionals="4" coveredconditionals="2" methods="4" coveredmethods="0"/>
+      <metrics statements="42" coveredstatements="34" conditionals="4" coveredconditionals="2" methods="4" coveredmethods="1"/>
       <file name="server.js" path="/Users/sumit.ahuja/Library/CloudStorage/OneDrive-Avalara/Documents/PromptWars/promptwars/backend/server.js">
-        <metrics statements="42" coveredstatements="30" conditionals="4" coveredconditionals="2" methods="4" coveredmethods="0"/>
+        <metrics statements="42" coveredstatements="34" conditionals="4" coveredconditionals="2" methods="4" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
@@ -39,10 +39,10 @@
         <line num="80" count="1" type="stmt"/>
         <line num="81" count="1" type="stmt"/>
         <line num="83" count="1" type="stmt"/>
-        <line num="84" count="0" type="stmt"/>
-        <line num="85" count="0" type="stmt"/>
-        <line num="86" count="0" type="stmt"/>
-        <line num="87" count="0" type="stmt"/>
+        <line num="84" count="1" type="stmt"/>
+        <line num="85" count="1" type="stmt"/>
+        <line num="86" count="1" type="stmt"/>
+        <line num="87" count="1" type="stmt"/>
         <line num="93" count="1" type="stmt"/>
         <line num="96" count="1" type="cond" truecount="1" falsecount="1"/>
         <line num="97" count="0" type="stmt"/>
@@ -51,15 +51,15 @@
       </file>
     </package>
     <package name="backend.config">
-      <metrics statements="6" coveredstatements="5" conditionals="18" coveredconditionals="14" methods="0" coveredmethods="0"/>
+      <metrics statements="6" coveredstatements="5" conditionals="20" coveredconditionals="16" methods="0" coveredmethods="0"/>
       <file name="settings.js" path="/Users/sumit.ahuja/Library/CloudStorage/OneDrive-Avalara/Documents/PromptWars/promptwars/backend/config/settings.js">
-        <metrics statements="6" coveredstatements="5" conditionals="18" coveredconditionals="14" methods="0" coveredmethods="0"/>
+        <metrics statements="6" coveredstatements="5" conditionals="20" coveredconditionals="16" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="9" count="1" type="stmt"/>
-        <line num="27" count="1" type="cond" truecount="3" falsecount="1"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="31" count="1" type="stmt"/>
+        <line num="28" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="29" count="0" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
       </file>
     </package>
     <package name="backend.controllers">
@@ -101,28 +101,33 @@
       <file name="errorMiddleware.js" path="/Users/sumit.ahuja/Library/CloudStorage/OneDrive-Avalara/Documents/PromptWars/promptwars/backend/middleware/errorMiddleware.js">
         <metrics statements="10" coveredstatements="10" conditionals="8" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="cond" truecount="1" falsecount="1"/>
-        <line num="12" count="1" type="stmt"/>
-        <line num="16" count="1" type="stmt"/>
-        <line num="19" count="1" type="cond" truecount="2" falsecount="2"/>
-        <line num="20" count="1" type="stmt"/>
-        <line num="23" count="1" type="stmt"/>
+        <line num="7" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="2" type="stmt"/>
+        <line num="11" count="2" type="cond" truecount="1" falsecount="1"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="19" count="2" type="cond" truecount="2" falsecount="2"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
         <line num="29" count="1" type="stmt"/>
       </file>
     </package>
     <package name="backend.routes">
-      <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="12" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
       <file name="api.js" path="/Users/sumit.ahuja/Library/CloudStorage/OneDrive-Avalara/Documents/PromptWars/promptwars/backend/routes/api.js">
-        <metrics statements="7" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <metrics statements="12" coveredstatements="11" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="19" count="1" type="stmt"/>
-        <line num="21" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="25" count="1" type="stmt"/>
+        <line num="26" count="1" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
       </file>
     </package>
     <package name="backend.services">

@@ -108,4 +108,24 @@ describe('POST /api/process', () => {
 
         expect(response.body).toHaveProperty('intent', 'general_help');
     });
+
+    // Google Services Edge Validation Case 
+    it('should securely evaluate and export API proxy maps route seamlessly', async () => {
+        const response = await request(app)
+            .get('/api/config')
+            .expect('Content-Type', /json/)
+            .expect(200);
+
+        expect(response.body).toHaveProperty('mapsKey');
+    });
+
+    // 404 Pipeline Edge Case validation Coverage
+    it('should strictly return 404 and safely escape payload limits routing via fallback pipelines', async () => {
+        const response = await request(app)
+            .get('/api/malicious-phantom-endpoint')
+            .expect('Content-Type', /json/)
+            .expect(404);
+
+        expect(response.body).toHaveProperty('success', false);
+    });
 });

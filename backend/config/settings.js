@@ -19,7 +19,8 @@ const config = {
     google: {
         geminiKey: process.env.GEMINI_API_KEY,
         geminiModel: process.env.GEMINI_MODEL || 'gemini-2.5-flash',
-        gcpProjectId: process.env.GOOGLE_CLOUD_PROJECT || 'promptwarssample'
+        gcpProjectId: process.env.GOOGLE_CLOUD_PROJECT || 'promptwarssample',
+        mapsKey: process.env.GOOGLE_MAPS_API_KEY || ''
     }
 };
 

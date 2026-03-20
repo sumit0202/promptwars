@@ -124,8 +124,12 @@
 
                     <article class="bg-gray-50 p-4 rounded-xl border border-gray-200" aria-label="Appropriate Law Enforcement or Response Dispatch mapping">
                         <h3 class="font-bold text-gray-800 mb-2 border-b border-gray-200 pb-2 flex items-center gap-2"><i class="fas fa-truck-medical text-yellow-600" aria-hidden="true"></i> Required Dispatch</h3>
-                        <div id="authorities-list" class="flex flex-wrap gap-2 mt-2" aria-label="Recommended civil authorities tags">
+                        <div id="authorities-list" class="flex flex-wrap gap-2 mt-2 mb-4" aria-label="Recommended civil authorities tags">
                         </div>
+                        
+                        <!-- Dynamic Google Maps Interactivity Canvas -->
+                        <div id="map" class="w-full h-64 bg-gray-200 rounded-xl hidden shadow-inner border border-gray-300 transition-all duration-300" aria-label="Interactive Google Map locating nearby authorities"></div>
+                        <p id="map-status" class="text-xs text-center mt-2 text-gray-500 italic hidden" aria-live="polite"></p>
                     </article>
 
                 </div>
