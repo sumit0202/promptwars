@@ -1,35 +1,59 @@
 const geminiService = require('../services/geminiService');
 const { validationResult } = require('express-validator');
+const NodeCache = require('node-cache');
+
+// Initialize Memory Cache allocating resources efficiently (Optimal CPU/Latency)
+// TTL: 1 Hour (3600 seconds). Prevents wasting Gemini API quota on duplicate submissions.
+const aiCache = new NodeCache({ stdTTL: 3600, checkperiod: 600, useClones: false });
 
 /**
- * Controller to handle Intent Processing via Google Gemini
+ * Controller explicitly handling Intent Processing via Google Gemini 
+ * Integrates Input Sanitization, Caching layers, and Service calls securely.
+ * 
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response payload
+ * @param {Function} next - Error middleware pipeline hook
  */
 const processIntent = async (req, res, next) => {
     try {
-        // 1. Initial Input Validation Check (handled via express-validator attached on route)
+        // 1. Validate constraints directly attached on route (prevents processing Malformed input)
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            // Return 400 Bad Request if validation rules fail
             return res.status(400).json({ success: false, errors: errors.array() });
         }
 
         const { userInput } = req.body;
+        const normalizedInput = userInput.trim().toLowerCase();
+        
+        // 2. Optimization Layer: Resource-efficient Response Caching bypassing LLM processing
+        const cacheHashKey = Buffer.from(normalizedInput).toString('base64');
+        const cachedResponse = aiCache.get(cacheHashKey);
+        
+        if (cachedResponse) {
+            console.log(JSON.stringify({ severity: 'INFO', message: `Cache HIT [efficiency optimized] - Served from Memory` }));
+            return res.status(200).json(cachedResponse);
+        }
 
-        console.log(`[INFO] Processing sanitized input length: ${userInput.length} chars`);
+        console.log(JSON.stringify({ severity: 'INFO', message: `Processing fresh prompt sequence length: ${userInput.length}` }));
 
-        // 2. Delegate to the AI Service
+        // 3. Orchestrator delegates strict text manipulation to specialized domain service
         const result = await geminiService.processIntent(userInput);
         
-        // 3. Return structured payload
-        res.status(200).json(result);
+        // 4. Cache newly minted successful payloads specifically avoiding failed API states 
+        if (result && result.intent) {
+            aiCache.set(cacheHashKey, result);
+        }
+        
+        // 5. Success Pipeline Exit
+        return res.status(200).json(result);
 
     } catch (error) {
-        // Tag operational API errors with 502 Bad Gateway to signify external API dependency failure, else 500
+        // Operational mapping explicitly wrapping generic exceptions cleanly behind 502/500 screens
         if (!error.statusCode) {
-            error.statusCode = 502;
+            error.statusCode = 502; // Bad Gateway indicating upstream AI processing failure
             error.isOperational = true;
         }
-        next(error); // Pass to centralized error handler
+        next(error); 
     }
 };
 
